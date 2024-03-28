@@ -27,7 +27,6 @@ const Carousel: React.FC<CarouselProps> = ({ projects }) => {
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-      console.log(windowWidth)
 
     const renderProjects = () => {
 
@@ -40,43 +39,23 @@ const Carousel: React.FC<CarouselProps> = ({ projects }) => {
 
       let slicedArray: ProjectProps[] = [];
 
-
-        if (numVisibleProjects === 3) {
-          if (activeIndex && activeIndex === projects.length) { 
-            setActiveIndex(0)
-            slicedArray = projects.slice(activeIndex, activeIndex+3);
-          } else if (activeIndex + 1 === projects.length){ 
-            slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,2)];
-          } else if (activeIndex + 2 === projects.length) {
-            slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,1)];
-          } else if (activeIndex === -1) {
-            setActiveIndex(projects.length + activeIndex)
-          }  else {
-            slicedArray = projects.slice(activeIndex, activeIndex+3);
-          }
-        } else if (numVisibleProjects === 2) {
-          if (activeIndex && activeIndex === projects.length) { 
-            setActiveIndex(0)
-            slicedArray = projects.slice(activeIndex, activeIndex+2);
-          } else if (activeIndex + 1 === projects.length){ 
-            slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,1)];
-          } else if (activeIndex === -1) {
-            setActiveIndex(projects.length + activeIndex)
-          }  else {
-            slicedArray = projects.slice(activeIndex, activeIndex+2);
-          }
-        } else {
-          if (activeIndex && activeIndex === projects.length) { 
-            setActiveIndex(0)
-            slicedArray = projects.slice(activeIndex, activeIndex+1);
-          } else if (activeIndex === -1) {
-            setActiveIndex(projects.length + activeIndex)
-          }  else {
-            slicedArray = projects.slice(activeIndex, activeIndex+1);
-          }
+      if (activeIndex && activeIndex === projects.length) { 
+        setActiveIndex(0)
+        slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
+      } else if (activeIndex + 1 === projects.length){ 
+        slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 1)];
+      } else if (activeIndex + 2 === projects.length) {
+        if (numVisibleProjects > 2) {
+          slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 2)];
+        } else {  
+          slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
         }
+      } else if (activeIndex === -1) {
+        setActiveIndex(projects.length + activeIndex)
+      }  else {
+        slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
+      }
 
-        console.log(slicedArray)
         return slicedArray.map(project => (
           <Project
             key={project.id}
