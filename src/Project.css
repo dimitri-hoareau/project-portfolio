@@ -1,0 +1,75 @@
+
+.bloc_project {
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.project {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  padding: 20px;
+  height: 450px;
+  text-align: center;
+}
+
+.project:hover {
+  transform: translateY(-5px);
+}
+
+.project_img {
+  width: 300px;
+}
+
+
+.project ul {
+  list-style-type: none;
+  display: flex;
+  margin: 20px;
+  padding: 0;
+
+}
+
+.tool-li {
+  margin: 5px;
+}
+
+
+.project a {
+  display: inline-block;
+  margin: 15px;
+  padding: 10px 15px;
+  background-color: #0B162C;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.project_image_container{
+  width: 350px;  /* Largeur fixe */
+  height: 150px; /* Hauteur fixe */
+  overflow: hidden; 
+}
+
+.project_image {
+  width: 100%;    /* Largeur de l'image à 100% du conteneur */
+  height: auto;   /* Hauteur ajustée automatiquement */
+  display: block; /* Supprime les espaces supplémentaires sous l'image */
+}
+
+.project_description{
+  height: 40px;
+}
