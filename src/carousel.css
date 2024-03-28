@@ -3,3 +3,60 @@
     justify-content: center;
     align-items: center;
 }
+
+
+
+@keyframes bounceRight {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+  }
+
+  @keyframes bounceLeft {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-5px);
+    }
+  }
+  
+.chevron-left{
+    animation: bounceLeft 1s infinite;
+}
+.chevron-right{
+    animation: bounceRight 1s infinite;
+}
+
+.chevronFa{
+    font-size: 2rem;
+    color: #0B162C;
+    cursor: pointer;
+    display: inline-block; 
+}
+.bullet-point-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+}
+
+.bullet-point{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #0B162C;
+    border-radius: 50%;
+    margin: 0 5px;
+    /* cursor: pointer; */
+}
+
+.active{
+
+    width: 15px;
+    height: 15px;
+}
