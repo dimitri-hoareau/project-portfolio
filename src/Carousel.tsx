@@ -14,8 +14,28 @@ const Carousel: React.FC<CarouselProps> = ({ projects }) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
 
+
+    
+
     const renderProjects = () => {
-        return projects.slice(activeIndex, activeIndex+3).map(project => (
+
+      let slicedArray: ProjectProps[] = [];
+        if (activeIndex && activeIndex === projects.length) { 
+          setActiveIndex(0)
+          slicedArray = projects.slice(activeIndex, activeIndex+3);
+        } else if (activeIndex + 1 === projects.length){ 
+          slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,2)];
+        } else if (activeIndex + 2 === projects.length) {
+          slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,1)];
+        } else if (activeIndex === -1) {
+          setActiveIndex(projects.length + activeIndex)
+        }  else {
+          slicedArray = projects.slice(activeIndex, activeIndex+3);
+        }
+
+
+
+        return slicedArray.map(project => (
           <Project
             key={project.id}
             id={project.id}
@@ -28,24 +48,27 @@ const Carousel: React.FC<CarouselProps> = ({ projects }) => {
         ));
       };
 
+
+
     const goToPrev = () => {
-        setActiveIndex(Math.max(0, activeIndex - 1));
+        setActiveIndex(activeIndex - 1);
       };
       
       const goToNext = () => {
-        setActiveIndex(Math.min(projects.length - 1, activeIndex + 1));
+          setActiveIndex(activeIndex + 1);
       };
       
 
       return (
-        <div>
           <div className="carousel-content">
+          <button onClick={goToPrev}>Précédent</button>
+          <>
           {renderProjects()}
+          </>
+
+          <button onClick={goToNext} >Suivant</button>
       
           </div>
-          <button onClick={goToPrev} disabled={activeIndex === 0}>Précédent</button>
-          <button onClick={goToNext} disabled={activeIndex === projects.length - 3}>Suivant</button>
-        </div>
       );
       
 
