@@ -1,15 +1,25 @@
 
 import Carousel from './Carousel';
-// import ProjectList from './ProjectList';
+import Filter from './Filter';
 import { useState, useEffect } from 'react';
-// import Project from './Project';
-import { ProjectProps } from './type';
-
-
+import { ProjectProps, VisibleTagsProps } from './type';
 
 
 function App() {
   const [projects, setProjects] = useState<ProjectProps[]>([]);
+
+  const [visibleTags, setVisibleTags] = useState<VisibleTagsProps>({
+    aws: false,
+    docker: false,
+    vue: false,
+    python: false,
+    css: false,
+    wordpress: false,
+    javascript: false,
+    openedx: false,
+    react: false,
+    django: false,
+  });
 
     useEffect(() => {
       fetch('https://dimitrihoareau.fr/api/projects/')
@@ -24,7 +34,8 @@ function App() {
 
   return (
     <>
-    <Carousel projects={projects} />
+    <Filter visibleTags={visibleTags} setVisibleTags={setVisibleTags}/>
+    <Carousel projects={projects} visibleTags={visibleTags} />
     </>
   )
 }

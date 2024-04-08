@@ -2,19 +2,31 @@
 
 import './carousel.css';
 import React, { useState, useEffect } from 'react';
-import { ProjectProps } from './type';
+import { ProjectProps, VisibleTagsProps, VisibleTagsArrayProps } from './type';
 import Project from './Project';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 interface CarouselProps {
-    projects: ProjectProps[];
-  }
+  projects: ProjectProps[];
+  visibleTags: VisibleTagsProps;
+}
 
-const Carousel: React.FC<CarouselProps> = ({ projects }) => {
+const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
+    const visibleTagsArray: VisibleTagsArrayProps = Object.entries(visibleTags)
+    .filter(([key, value]) => value)
+    .map(([key]) => key);
+
+    const filteredProjects = projects.filter(project => {
+      return project.tools.some(tool => visibleTagsArray.includes(tool.name));
+    });
+    
+    console.log(filteredProjects)
 
 
     useEffect(() => {
@@ -30,7 +42,7 @@ const Carousel: React.FC<CarouselProps> = ({ projects }) => {
 
     const renderProjects = () => {
 
-      let numVisibleProjects = 3; // Par défaut, afficher 3 projets
+      let numVisibleProjects = 3; 
       if (windowWidth <= 900) {
         numVisibleProjects = 1;
       } else if (windowWidth <= 1350) {
@@ -56,19 +68,19 @@ const Carousel: React.FC<CarouselProps> = ({ projects }) => {
         slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
       }
 
-        return slicedArray.map(project => (
-          <Project
-            key={project.id}
-            id={project.id}
-            name={project.name}
-            short_description={project.short_description}
-            tools={project.tools}
-            link={project.link}
-            picture={project.picture}
-          />
-          
-        ));
-      };
+      return slicedArray.map(project => (
+        <Project
+          key={project.id}
+          id={project.id}
+          name={project.name}
+          short_description={project.short_description}
+          tools={project.tools}
+          link={project.link}
+          picture={project.picture}
+        />
+        
+      ));
+    };
 
 
 
