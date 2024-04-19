@@ -60,3 +60,8 @@
     width: 15px;
     height: 15px;
 }
+
+.arrow-deactivate {
+  color: gray;
+  animation:none
+}

@@ -25,6 +25,7 @@ function App() {
       fetch('https://dimitrihoareau.fr/api/projects/')
         .then(response => response.json())
         .then((data: ProjectProps[]) => { 
+          data.sort((a, b) => a.id - b.id);
           setProjects(data);
         })
         .catch(error => {

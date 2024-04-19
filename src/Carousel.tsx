@@ -25,48 +25,64 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
     const filteredProjects = projects.filter(project => {
       return project.tools.some(tool => visibleTagsArray.includes(tool.name));
     });
-    
-    console.log(filteredProjects)
 
 
     useEffect(() => {
       const handleResize = () => {
         setWindowWidth(window.innerWidth);
       };
-  
       window.addEventListener('resize', handleResize);
-  
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+      if (activeIndex === -1) {
+        setActiveIndex(projects.length - 1);
+      }
+      if (activeIndex === projects.length) {
+        setActiveIndex(0);
+      }
+    }, [activeIndex, projects.length]);
+
+    let numVisibleProjects = 3; 
+    if (windowWidth <= 900) {
+      numVisibleProjects = 1;
+    } else if (windowWidth <= 1350) {
+      numVisibleProjects = 2;
+    }
+
+
+    let slicedArray: ProjectProps[] = [];
+
+    projects = filteredProjects.length > 0 ? filteredProjects : projects;
+
+    const isEndOfCarousel = activeIndex === projects.length // dernier
+    const isPenultimateProject = activeIndex + 1 === projects.length // avant dernier
+    const isAtAntePenultimateProject = activeIndex + 2 === projects.length // avant avant dernier
+
+    const smallArray = projects.length < 3
+    const deactivateArrow = projects.length < 2
+
+    if (isEndOfCarousel) {
+        slicedArray = smallArray ? projects : projects.slice(activeIndex, activeIndex+numVisibleProjects);
+    } else if (isPenultimateProject){
+      if (numVisibleProjects < 2) {
+        slicedArray =  projects.slice(activeIndex, activeIndex+numVisibleProjects);
+      } else {   
+      slicedArray = smallArray ? projects : [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 1)];
+    } 
+    } else if (isAtAntePenultimateProject) {
+      if (numVisibleProjects < 2) {
+        slicedArray =  projects.slice(activeIndex, activeIndex+numVisibleProjects);
+      } else {       
+        slicedArray = smallArray ? projects : [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 2)];                   
+      }
+    } 
+      else {
+        slicedArray = smallArray ? projects : projects.slice(activeIndex, activeIndex+numVisibleProjects);
+    }
 
     const renderProjects = () => {
-
-      let numVisibleProjects = 3; 
-      if (windowWidth <= 900) {
-        numVisibleProjects = 1;
-      } else if (windowWidth <= 1350) {
-        numVisibleProjects = 2;
-      }
-
-      let slicedArray: ProjectProps[] = [];
-
-      if (activeIndex && activeIndex === projects.length) { 
-        setActiveIndex(0)
-        slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
-      } else if (activeIndex + 1 === projects.length){ 
-        slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 1)];
-      } else if (activeIndex + 2 === projects.length) {
-        if (numVisibleProjects > 2) {
-          slicedArray = [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 2)];
-        } else {  
-          slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
-        }
-      } else if (activeIndex === -1) {
-        setActiveIndex(projects.length + activeIndex)
-      }  else {
-        slicedArray = projects.slice(activeIndex, activeIndex+numVisibleProjects);
-      }
 
       return slicedArray.map(project => (
         <Project
@@ -82,8 +98,6 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
       ));
     };
 
-
-
     const goToPrev = () => {
         setActiveIndex(activeIndex - 1);
       };
@@ -95,14 +109,20 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
 
       return (
         <>
-          {/* <div className='filter-container'>
-          </div> */}
           <div className="carousel-content">
-            <FontAwesomeIcon className='chevronFa chevron-left' onClick={goToPrev} icon={faChevronLeft} />
+            {deactivateArrow ?
+              <FontAwesomeIcon className='chevronFa chevron-left arrow-deactivate' icon={faChevronLeft} />
+              :
+              <FontAwesomeIcon className='chevronFa chevron-left' onClick={goToPrev} icon={faChevronLeft} />
+            }
             <>
               {renderProjects()}
             </>
-            <FontAwesomeIcon className='chevronFa chevron-right' onClick={goToNext} icon={faChevronRight} />
+            {deactivateArrow ?
+              <FontAwesomeIcon className='chevronFa chevron-left arrow-deactivate' icon={faChevronRight} />
+              :
+              <FontAwesomeIcon className='chevronFa chevron-left' onClick={goToNext} icon={faChevronRight} />
+            }
           </div>
           <div className='bullet-point-container'>
             {projects.map(project => (
