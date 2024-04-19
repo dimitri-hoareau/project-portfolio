@@ -15,18 +15,21 @@ const Filter: React.FC<FilterProps> = ({ visibleTags, setVisibleTags}) => {
     }));
   };
 
+  const getImagePath = (tagName: string): string => {
+    return `/media/${tagName.toLowerCase()}.png`;
+  }
+
   return (
     <div className='filter-box'>
       {Object.keys(visibleTags).map(tag => (
-        <div key={tag}>
-          <label>
-            {tag}
-            <input
-              type="checkbox"
-              checked={visibleTags[tag]}
-              onChange={() => toggleTagVisibility(tag)}
-            />
-          </label>
+        <div key={tag} className="filter-tag">
+          <img
+            src={getImagePath(tag)}
+            alt={`Toggle ${tag}`}
+            className="tool-logo clickable"
+            onClick={() => toggleTagVisibility(tag)}
+            style={{ opacity: visibleTags[tag] ? 1 : 0.5 }} // Changes opacity based on visibility
+          />
         </div>
       ))}
     </div>

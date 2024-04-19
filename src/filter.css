@@ -3,4 +3,10 @@
     justify-content: center;
     align-items: center;
     margin: 2em;
+    flex-wrap: wrap;
+}
+
+.tool-logo {
+    margin: 0 0.5em;
+    cursor: pointer;
 }

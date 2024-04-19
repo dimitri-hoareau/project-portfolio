@@ -22,9 +22,11 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
     .filter(([key, value]) => value)
     .map(([key]) => key);
 
+
     const filteredProjects = projects.filter(project => {
       return project.tools.some(tool => visibleTagsArray.includes(tool.name));
     });
+
 
 
     useEffect(() => {
@@ -82,6 +84,7 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
         slicedArray = smallArray ? projects : projects.slice(activeIndex, activeIndex+numVisibleProjects);
     }
 
+
     const renderProjects = () => {
 
       return slicedArray.map(project => (
@@ -126,7 +129,7 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
           </div>
           <div className='bullet-point-container'>
             {projects.map(project => (
-              <div key={project.id} className={project.id === activeIndex + 1 ? 'bullet-point active' : 'bullet-point'}>
+              <div key={project.id} className='bullet-point'>
               </div>
             ))}
 

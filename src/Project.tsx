@@ -2,6 +2,7 @@
 import './Project.css'
 import { Tool, ProjectProps } from './type';
 
+
 const Project: React.FC<ProjectProps> = ({ id,name, short_description, tools, link, picture }) => {
 
     const imageSrc = `https://dimitrihoareau.fr${picture}`;
@@ -16,7 +17,7 @@ const Project: React.FC<ProjectProps> = ({ id,name, short_description, tools, li
                 <ul>
                 {tools.map((tool: Tool) => {
                     const imageName = tool.name.toLowerCase();
-                    const imagePath = `https://dimitrihoareau.fr/media/${imageName}.png`;
+                    const imagePath = `/media/${imageName}.png`;
                     return <li className='tool-li' key={tool.name}><img src={imagePath} alt={`Tool ${tool.name}`} className="tool-logo" /></li>;
                 })}
                 </ul>
