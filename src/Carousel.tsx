@@ -19,7 +19,7 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
 
 
     const visibleTagsArray: VisibleTagsArrayProps = Object.entries(visibleTags)
-    .filter(([key, value]) => value)
+    .filter(([_, value]) => value)
     .map(([key]) => key);
 
 
@@ -63,7 +63,11 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
     const isAtAntePenultimateProject = activeIndex + 2 === projects.length // avant avant dernier
 
     const smallArray = projects.length < 3
-    const deactivateArrow = projects.length < 2
+    let deactivateArrow = false
+
+    if (projects.length < numVisibleProjects + 1) {
+      deactivateArrow = true;
+    }
 
     if (isEndOfCarousel) {
         slicedArray = smallArray ? projects : projects.slice(activeIndex, activeIndex+numVisibleProjects);
