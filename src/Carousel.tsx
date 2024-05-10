@@ -13,6 +13,7 @@ interface CarouselProps {
 }
 
 const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
+  
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -28,6 +29,10 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
     });
 
 
+
+    useEffect(() => {
+        setActiveIndex(0);
+    }, [visibleTags]);
 
     useEffect(() => {
       const handleResize = () => {
@@ -80,13 +85,14 @@ const Carousel: React.FC<CarouselProps> = ({ projects, visibleTags }) => {
     } else if (isAtAntePenultimateProject) {
       if (numVisibleProjects < 2) {
         slicedArray =  projects.slice(activeIndex, activeIndex+numVisibleProjects);
-      } else {       
+      } else {      
         slicedArray = smallArray ? projects : [...projects.slice(activeIndex), ...projects.slice(0,numVisibleProjects - 2)];                   
       }
     } 
       else {
         slicedArray = smallArray ? projects : projects.slice(activeIndex, activeIndex+numVisibleProjects);
     }
+
 
 
     const renderProjects = () => {
